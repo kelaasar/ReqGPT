@@ -14,6 +14,15 @@ class Todo(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
+@app.route('/',  methods=['POST', 'GET'])
+def upload():
+    if request.method == 'POST':
+        return redirect(url_for('download'))
+
+
+    return render_template('upload.html')
+
+
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
