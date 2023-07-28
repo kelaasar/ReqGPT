@@ -1,9 +1,16 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os
+from werkzeug.utils import secure_filename
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField
+from wtforms.validators import InputRequired
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SECRET_KEY'] = 'supersecretkey'
+app.config['UPLOAD_FOLDER'] = 'static/input'
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
@@ -14,15 +21,9 @@ class Todo(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
-@app.route('/',  methods=['POST', 'GET'])
-def upload():
-    if request.method == 'POST':
-        return redirect(url_for('download'))
-
-
-    return render_template('upload.html')
-
-
+class FileUploadForm(FlaskForm):
+    file = FileField('Upload File', validators=[InputRequired()])
+    submit = SubmitField('Upload')
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -36,11 +37,10 @@ def index():
             return redirect('/')
         except:
             return 'There was an issue adding your task'
-
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
-        return render_template('index.html', tasks=tasks)
-
+        form = FileUploadForm()
+        return render_template('index.html', tasks=tasks, form=form)
 
 @app.route('/delete/<int:id>')
 def delete(id):
@@ -65,10 +65,17 @@ def update(id):
             return redirect('/')
         except:
             return 'There was an issue updating your task'
-
     else:
         return render_template('update.html', task=task)
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    form = FileUploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True)

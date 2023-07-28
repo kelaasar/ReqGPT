@@ -1,0 +1,111 @@
+reqid,rationale
+AP-003b,
+AP-003d,"The roll reference shall be set to the cockpit turn knob command, up to a 30 degree limit, if the turn knob is commanding 3 degrees or more in either direction. (we removed the ""up to a 30 degree limit"" part)"
+NN-004,"The absolute error between the zt truth data and the output z shall never exceed a tolerance of 0.01, for the equivalent input of (xt, yt)."
+FSM-002,The autopilot shall change states from TRANSITION to STANDBY when the pilot is in control (standby).
+EUL-001C,
+TSM-004,
+AP-002B,"Roll Autopilot shall engage when the pilot selects the autopilot engage switch in the cockpit and disengage when the switch is deselected. When not engaged, the command to the roll actuator shall be zero."
+EUL-001I,
+EB-001,
+AP-010a,
+NN-003,
+NLG-001,
+NLG-002&3,
+TUI-002,
+EUL-001A,"The Rotation Matrix Output, DCM321, of this Function Shall Equal a 3x3 Matrix Product of a 3x3 Euler 3 (Roll) Rotation Matrix times a 3x3 Euler 2 (Pitch) Rotation Matrix times a 3x3 Euler 1 (Heading) Rotation Matrix."
+EB-002,
+AP-003A,
+FSM-005,The autopilot shall change states from NOMINAL to STANDBYwhen the pilot is in control (standby).
+SWIM-002,"2.	When a low speed warning is allowed, as computed by the SWIM Airspeed algorithm, a low speed warning shall be true when the vehicle air data impact pressure is less than the warning trigger for minimum impact pressure in which a safe AGCAS evasive maneuver can be accomplished where:
+
+The warning trigger for minimum impact pressure in which a safe AGCAS evasive maneuver can be accomplished is computed as
+
+SWIM_Qcmin_lbspft2 = [(-2.0906 + 0.020306*Auto GCAS Minimum Vcas) + 0.1] * (70.7184 (lbspft2/in Hg))"
+TSM-001,"In the no-fail state, a mis-compare, which shall be characterized by one branch differing with the other two branches by a unique trip level that lasts for more than the persistence limit, shall be reported to failure management as a failure."
+TUI-001,
+EB-004,
+NN-003B,
+FSM-003,The autopilot shall change states from TRANSITION to NOMINAL when the system is supported and sensor data is good.
+FSM-008v1,The autopilot shall change states from STANDBY to TRANSITION when the pilot is not in control (not standby)
+NLG-005,
+FSM-011v1,The sensor shall change states from NOMINAL to TRANSITION when the autopilot is not requesting support (not request)
+AP-010b,
+EUL-002C,
+AP-002,
+REG-004,The Inner Loop Airspeed Regulator Shall not command translational axial accelerations greater than the capability of the system (32 ft/sec2) for durations exceeding 100 frames (1 second @ 100 hz).
+AP-002a,Roll hold mode shall be the active mode whenever the autopilot is engaged and no other lateral mode is active.
+REG-001,The Inner Loop Roll Regulator Shall not command angular roll accelerations greater than the capability of the system (50 deg/sec2) for durations exceeding 100 frames (1 second @ 100 hz).
+EUL-001d,
+FSM-001v2,
+TSM-003,
+TSM-003b,
+REG-006,The Inner Loop Roll Regulator Shall not command transient changes in angular roll acceleration greater than 50 deg/sec2/sec.
+FSM-009,The autopilot shall change states from STANDBY to MANEUVER when a failure occurs (apfail)
+FSM-001v3,
+REG-005,The Inner Loop Height Regulator Shall not command translational height accelerations greater than the capability of the system (32 ft/sec2) for durations exceeding 100 frames (1 second @ 100 hz).
+FSM-004v2,The autopilot shall change states from NOMINAL to STANDBY when the pilot is in contronl (standby)
+AP-004a,
+FSM-008v2,
+NLG-005a,
+REG-007,The Inner Loop Pitch Regulator Shall not command transient changes in angular pitch acceleration greater than 50 deg/sec2/sec.
+TSM-003c,
+NLG-005b,
+EUL-002A,"The Body Vector Output, Vb, of this Function Shall Equal a 3x1 Vector Product of the 3x3 Rotation Matrix Output, DCM321, times the Input Inertial Vector, Vi."
+AP-004b,
+REG-008,The Inner Loop Yaw Regulator Shall not command transient changes in angular yaw acceleration greater than 50 deg/sec2/sec.
+NN-003A,"3.	Using a first order finite backward difference equation, the spatial derivatives of Δz/ Δxt = (z(n,1)-z(n-1))/(xt(n,1)-xt(n-1,1) and Δz/ Δyt = (z(n,1)-z(n-1))/(yt(n,1)-yt(n-1,1) shall never exceed a top bound of +10 or bottom bound of -35 (e.g. -35 <= Δz/ Δ(xt,yt) <= 10), where n denotes an index to the current values and n-1 denotes the prior values in the included truth data for xt and yt.    "
+TUI-003,
+AP-005,
+EUL-001F,
+FSM-012,The sensor shall change states from FAULT to TRANSITION when the autopilot is not requesting support (not request) and limits are not exceeded (not limits)
+REG-009,The Inner Loop Airspeed Regulator Shall not command transient changes in translational axial acceleration greater than 32 ft/sec2/sec.
+FSM-010,The sensor shall change states from NOMINAL to FAULT when limits are exceeded
+AP-001,"Roll Autopilot shall engage when the pilot selects the autopilot engage switch in the cockpit and disengage when the switch is deselected. When not engaged, the command to the roll actuator shall be zero."
+AP-003B,
+EUL-001,
+NN-002,"The minimum value of the NN output, z, shall always be greater than or equal to -0.2, regardless of the input values"
+AP-008,
+AP-006,
+FSM-013,The sensor shall change states from TRANSITION to NOMINAL when the autopilot is requesting support (request) and the autopilot reports the correct active mode (mode)
+SWIM-001a,"The SWIM Airspeed algorithm shall output the minimum AGCAS airspeed required to perform a 2g flyup as follows:
+
+Auto GCAS Minimum Vcas (knots) = 
+SQRT{[2*Load Factor*Gross Weight]/[Air Density at sea level * 
+		Coefficient of Lift Max*Wing Area]} / 1.6891 (ft/s/knots)
+where
+	Load Factor = 2 gs
+	Gross weight of the aircraft
+	Air Density at sea level = 0.0023769 slugs/ft^3
+	Coefficient of Lift Max = 1.24 (CAT I) and 1.10 (CAT III)
+	Wing Area of the F-16 = 300 ft^2
+Thus,
+IF CAT I, Auto GCAS Minimum Vcas (knots)  = 1.25921 * SQRT(Gross Weight)  + 10.0
+IF CAT III, Auto GCAS Minimum Vcas (knots)  = 1.33694 * SQRT(Gross Weight) + 10.0"
+NLG-006,
+FSM-007,The autopilot shall change states from PULLUP to TRANSITION when the system is supported and sensor data is good
+NLG-004,
+AP-007,
+FSM-004,
+FSM-007v2,
+TSM-002,
+SWIM-001b,
+REG-010,The Inner Loop Height Regulator Shall not command transient changes in translational height acceleration greater than 32 ft/sec2/sec.
+EUL-001G,
+NN-001,"The maximum value of NN output, z, shall always be less than or equal to 1.1, regardless of the input values"
+FSM-011v2,
+REG-002,The Inner Loop Pitch Regulator shall not command angular pitch accelerations greater than the capability of the system (50 deg/sec2) for durations exceeding 100 frames (1 second @ 100 hz).
+NLG-007,
+FSM-001v1,Exceeding sensor limits shall latch an autopilot pullup when the pilot is not in control (not standby) and the system is supported without failures (not apfail).
+AP-008A,
+EUL-001E,
+EUL-002,
+TSM-003a,"In the single fail state, a good channel average of the remaining two good branches shall be used to determine the selected value (1)"
+REG-003,The Inner Loop Yaw Regulator Shall not command angular yaw accelerations greater than the capability of the system (50 deg/sec2) for durations exceeding 100 frames (1 second @ 100 hz).
+EUL-002B,
+AP-008B,
+AP-003C,The roll hold reference shall be set to 30 degrees in the same direction as the actual roll angle if the actual roll angle is greater than 30 degrees at the time of roll hold engagement.
+EUL-001B,
+EUL-001H,
+FSM-006,The autopilot shall change states from MANEUVER to STANDBY when the pilot is in control (standby) and sensor data is good
+AP-003B,
