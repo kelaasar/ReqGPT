@@ -127,6 +127,29 @@ def clear_table():
     except:
         return 'There was an issue clearing the table'
 
+@app.route('/export_table', methods=['POST'])
+def export_table():
+    # Query all tasks from the database
+    tasks = Todo.query.all()
+
+    # Create a list to store the CSV data
+    csv_data = [['Requirement', 'Date']]
+
+    # Add each task to the CSV data
+    for task in tasks:
+        csv_data.append([task.content, task.date_created.date()])
+
+    # Save the CSV data to a file on the server
+    csv_file_path = os.path.join('static', 'export', 'table_data.csv')
+    with open(csv_file_path, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(csv_data)
+
+    # Set the appropriate headers to trigger the download in the browser
+    response = send_from_directory('static/export', 'table_data.csv', as_attachment=True)
+
+    return response
+
     
 if __name__ == "__main__":
     app.run(debug=True)
