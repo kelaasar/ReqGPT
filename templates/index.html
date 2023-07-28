@@ -10,7 +10,7 @@
     {% if tasks|length < 1 %}
     <h4 style="text-align: center">There are no tasks. Create one below!</h4>
     {% else %}
-    
+
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class="flash-messages">
@@ -47,12 +47,23 @@
             <input type="submit" value="Add Task">
         </form>
     </div>
-
+    
     <div class="form">
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <form action="/upload" method="POST" enctype="multipart/form-data" style="display: inline-block;">
             {{ form.csrf_token }}
             {{ form.file.label }} {{ form.file() }}
             {{ form.submit() }}
+        </form>
+        <form action="/append_to_table" method="POST" style="display: inline-block;">
+            {{ form.csrf_token }}
+            <input type="submit" value="Append to table">
+        </form>
+    </div>
+
+    <div class="form">
+        <form action="/clear_table" method="POST">
+            {{ form.csrf_token }}
+            <input type="submit" value="Clear Table">
         </form>
     </div>
 </div>

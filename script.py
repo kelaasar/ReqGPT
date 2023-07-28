@@ -3,7 +3,7 @@ import json
 import os
 import sys
 
-def convert_to_csv(input_file_path, output_file_path):
+def read_json_to_csv(input_file_path, output_file_path):
     # Check if the input file exists
     if not os.path.exists(input_file_path):
         print(f"Error: Input file '{input_file_path}' not found.")
@@ -33,10 +33,14 @@ def convert_to_csv(input_file_path, output_file_path):
     else:
         print(f"Error: Unsupported file type '{file_extension}'. Only JSON files are supported.")
 
+# This function is not used here, but you can keep it if you need to call it separately
+def convert_to_csv(input_file_path, output_file_path):
+    read_json_to_csv(input_file_path, output_file_path)
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python script.py input_file_path")
     else:
         input_file_path = sys.argv[1]
         output_file_path = os.path.join('static', 'output', 'output.csv')
-        convert_to_csv(input_file_path, output_file_path)
+        read_json_to_csv(input_file_path, output_file_path)
