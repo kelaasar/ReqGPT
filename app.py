@@ -1,11 +1,12 @@
-from flask import Flask, render_template, url_for, request, redirect, send_from_directory
+from flask import Flask, render_template, url_for, request, redirect, send_from_directory, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, ValidationError
+import subprocess
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -20,6 +21,13 @@ class Todo(db.Model):
 
     def __repr__(self):
         return '<Task %r>' % self.id
+
+class JSONFileValidator(object):
+    def __call__(self, form, field):
+        if field.data:
+            filename = field.data.filename
+            if not filename.lower().endswith('.json'):
+                raise ValidationError('You must upload a JSON file.')
 
 class FileUploadForm(FlaskForm):
     file = FileField('Upload File', validators=[InputRequired()])
@@ -74,8 +82,18 @@ def upload():
     if form.validate_on_submit():
         file = form.file.data
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return redirect('/')
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
 
+        # Run script.py using subprocess
+        script_path = os.path.join(os.path.dirname(__file__), 'script.py')
+        subprocess.run(['python', script_path, file_path])  # Pass the uploaded file path to the script
+
+        return redirect('/')
+    else:
+        # If the form doesn't validate, show the error message
+        flash('You must upload a file.', 'error')
+        return redirect('/')
+    
 if __name__ == "__main__":
     app.run(debug=True)

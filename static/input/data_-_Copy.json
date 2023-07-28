@@ -1,0 +1,105 @@
+[
+    {
+        "reqid": "AP-003b",
+        "parent_reqid": "",
+        "project": "LM_requirements",
+        "rationale": "",
+        "comments": "",
+        "fulltext": "In roll_hold mode RollAutopilot shall immediately satisfy if abs(roll_angle) < 6.0 then roll_hold_reference = 0.0",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "in"
+            },
+            "condition": "null",
+            "timing": "immediately",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "abs",
+                    "roll_angle",
+                    "roll_hold_reference"
+                ],
+                "modes": [
+                    "roll_hold"
+                ]
+            },
+            "scope_mode": "roll_hold",
+            "scopeTextRange": [
+                0,
+                16
+            ],
+            "component_name": "RollAutopilot",
+            "componentTextRange": [
+                18,
+                30
+            ],
+            "timingTextRange": [
+                38,
+                48
+            ],
+            "post_condition": "(abs ( roll_angle ) < 6.0 => roll_hold_reference = 0.0)",
+            "responseTextRange": [
+                50,
+                112
+            ],
+            "ft": "((LAST V ((! (Fin_<b><i>roll_hold</i></b> & (! LAST))) | (X <b><i>(abs ( roll_angle ) < 6.0 -> roll_hold_reference = 0.0)</i></b>))) & (<b><i>roll_hold</i></b> -> <b><i>(abs ( roll_angle ) < 6.0 -> roll_hold_reference = 0.0)</i></b>))",
+            "pt": "(H (Fin_<b><i>roll_hold</i></b> -> <b><i>(abs ( roll_angle ) < 6.0 -> roll_hold_reference = 0.0)</i></b>))",
+            "ftExpanded": "((LAST V ((! ((((! <b><i>roll_hold</i></b>) & (! LAST)) & (X <b><i>roll_hold</i></b>)) & (! LAST))) | (X <b><i>(abs ( roll_angle ) < 6.0 -> roll_hold_reference = 0.0)</i></b>))) & (<b><i>roll_hold</i></b> -> <b><i>(abs ( roll_angle ) < 6.0 -> roll_hold_reference = 0.0)</i></b>))",
+            "ptExpanded": "(H ((<b><i>roll_hold</i></b> & ((! (Y TRUE)) | (Y (! <b><i>roll_hold</i></b>)))) -> <b><i>(abs ( roll_angle ) < 6.0 -> roll_hold_reference = 0.0)</i></b>))",
+            "component": "<b><i>RollAutopilot</i></b>",
+            "CoCoSpecCode": "(H((roll_hold and (FTP or (pre ( not roll_hold)))) => (abs ( roll_angle ) < 6.0 => roll_hold_reference = 0.0)))",
+            "diagramVariables": "M = <b><i>roll_hold</i></b>, Response = <b><i>(abs ( roll_angle ) < 6.0 => roll_hold_reference = 0.0)</i></b>.",
+            "description": "ENFORCED: in every interval where <b><i>roll_hold</i></b> holds.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, if trigger holds then RES also holds at the same time point.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/in_null_immediately_satisfaction.svg"
+        },
+        "_id": "d5807390-1221-11ee-8f14-658065b0476e"
+    },
+    {
+        "reqid": "AP-003d",
+        "parent_reqid": "",
+        "project": "LM_requirements",
+        "rationale": "The roll reference shall be set to the cockpit turn knob command, up to a 30 degree limit, if the turn knob is commanding 3 degrees or more in either direction. (we removed the \"up to a 30 degree limit\" part)",
+        "fulltext": "RollAutopilot shall always satisfy (TurnKnob >= 3.0 | TurnKnob <= -3.0) & (TurnKnob <= 30.0 | TurnKnob >= -30.0) => roll_hold_reference = TurnKnob",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "TurnKnob",
+                    "roll_hold_reference"
+                ],
+                "modes": []
+            },
+            "component_name": "RollAutopilot",
+            "componentTextRange": [
+                0,
+                12
+            ],
+            "timingTextRange": [
+                20,
+                25
+            ],
+            "post_condition": "(( TurnKnob >= 3.0 | TurnKnob <= -3.0 ) & ( TurnKnob <= 30.0 | TurnKnob >= -30.0 ) => roll_hold_reference = TurnKnob)",
+            "responseTextRange": [
+                27,
+                145
+            ],
+            "ft": "(LAST V <b><i>(( TurnKnob >= 3.0 | TurnKnob <= -3.0 ) & ( TurnKnob <= 30.0 | TurnKnob >= -30.0 ) -> roll_hold_reference = TurnKnob)</i></b>)",
+            "pt": "(H <b><i>(( TurnKnob >= 3.0 | TurnKnob <= -3.0 ) & ( TurnKnob <= 30.0 | TurnKnob >= -30.0 ) -> roll_hold_reference = TurnKnob)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(( TurnKnob >= 3.0 | TurnKnob <= -3.0 ) & ( TurnKnob <= 30.0 | TurnKnob >= -30.0 ) -> roll_hold_reference = TurnKnob)</i></b>)",
+            "ptExpanded": "(H <b><i>(( TurnKnob >= 3.0 | TurnKnob <= -3.0 ) & ( TurnKnob <= 30.0 | TurnKnob >= -30.0 ) -> roll_hold_reference = TurnKnob)</i></b>)",
+            "component": "<b><i>RollAutopilot</i></b>",
+            "CoCoSpecCode": "(H((( TurnKnob >= 3.0 or TurnKnob <= -3.0 ) and ( TurnKnob <= 30.0 or TurnKnob >= -30.0 ) => roll_hold_reference = TurnKnob)))",
+            "diagramVariables": "Response = <b><i>(( TurnKnob >= 3.0 | TurnKnob <= -3.0 ) & ( TurnKnob <= 30.0 | TurnKnob >= -30.0 ) => roll_hold_reference = TurnKnob)</i></b>.",
+            "description": "Always, the component \"<b><i>RollAutopilot</i></b>\" shall satisfy <b><i>(( TurnKnob >= 3.0 | TurnKnob <= -3.0 ) & ( TurnKnob <= 30.0 | TurnKnob >= -30.0 ) => roll_hold_reference = TurnKnob)</i></b>.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "d5807391-1221-11ee-8f14-658065b0476e"
+    }
+]
