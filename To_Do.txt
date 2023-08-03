@@ -1,0 +1,4 @@
+- create columns: Project   ReqID     Requirement    Date     accelerations
+- create filter to select Project
+- allow to manually enter project, reqid, Requirement
+-  
