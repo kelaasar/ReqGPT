@@ -23,13 +23,15 @@
 
     <table>
         <tr>
+            <th>ID</th> <!-- New column for ID -->
             <th>Requirement</th>
             <th>Date</th>
             <th>Actions</th>
         </tr>
         {% for task in tasks %}
             <tr>
-                <td>{{ task.content }}</td>
+                <td>{{ task.content.split(',')[0] }}</td> <!-- Display reqid in the ID column -->
+                <td>{{ task.content.split(',')[1] }}</td> <!-- Display rationale in the Requirement column -->
                 <td>{{ task.date_created.date() }}</td>
                 <td>
                     <a href="/delete/{{task.id}}">Delete</a>

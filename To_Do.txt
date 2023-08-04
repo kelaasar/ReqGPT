@@ -1,4 +1,5 @@
-- create columns: Project   ReqID     Requirement    Date     accelerations
+- create columns: Project   ReqID     Requirement    Date     
 - create filter to select Project
 - allow to manually enter project, reqid, Requirement
--  
+- make conversion from json to csv separate feature
+- you can directly upload csv file to database-  

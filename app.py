@@ -16,7 +16,7 @@ app.config['UPLOAD_FOLDER'] = 'static/input'
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -107,8 +107,9 @@ def append_to_table():
 
     # Add the data to the database table
     for reqid, rationale in data_to_append:
-        content = f'Reqid: {reqid}' + "--------" + f'Rationale: {rationale}'
+        content = f"{reqid}, {rationale}"
         new_task = Todo(content=content)
+
         try:
             db.session.add(new_task)
             db.session.commit()
