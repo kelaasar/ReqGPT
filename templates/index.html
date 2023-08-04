@@ -23,15 +23,28 @@
 
     <table>
         <tr>
-            <th>ID</th> <!-- New column for ID -->
+            <th>ID</th>
             <th>Requirement</th>
             <th>Date</th>
             <th>Actions</th>
         </tr>
+        <tr>
+            <td>
+                <select id="project-filter">
+                    <option value="">All</option>
+                    {% for key in project_keys %}
+                        <option value="{{ key }}">{{ key }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
         {% for task in tasks %}
-            <tr>
-                <td>{{ task.content.split(',')[0] }}</td> <!-- Display reqid in the ID column -->
-                <td>{{ task.content.split(',')[1] }}</td> <!-- Display rationale in the Requirement column -->
+            <tr class="data-row" data-project="{{ task.content.split(',')[0].split('-')[0] }}">
+                <td>{{ task.content.split(',')[0] }}</td>
+                <td>{{ task.content.split(',')[1] }}</td>
                 <td>{{ task.date_created.date() }}</td>
                 <td>
                     <a href="/delete/{{task.id}}">Delete</a>
@@ -41,6 +54,21 @@
             </tr>
         {% endfor %}
     </table>
+    
+    <script>
+        // Filter the table rows based on the selected project key
+        document.getElementById('project-filter').addEventListener('change', function () {
+            const selectedValue = this.value;
+            const dataRows = document.getElementsByClassName('data-row');
+            for (const row of dataRows) {
+                if (selectedValue === '' || row.dataset.project === selectedValue) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    </script>
     {% endif %}
 
     <div class="form">

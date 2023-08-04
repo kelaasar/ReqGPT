@@ -48,8 +48,15 @@ def index():
             return 'There was an issue adding your task'
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
+
+        # Create a list of project keys from the current elements in the table
+        project_keys = set()
+        for task in tasks:
+            reqid = task.content.split(',')[0].split('-')[0]
+            project_keys.add(reqid)
+
         form = FileUploadForm()
-        return render_template('index.html', tasks=tasks, form=form)
+        return render_template('index.html', tasks=tasks, form=form, project_keys=project_keys)
 
 @app.route('/delete/<int:id>')
 def delete(id):
