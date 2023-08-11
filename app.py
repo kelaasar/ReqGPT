@@ -5,8 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField, StringField, TextAreaField
-from wtforms.validators import InputRequired, ValidationError
-import subprocess
+from wtforms.validators import InputRequired
 import csv
 from json_to_csv import json_to_csv
 
