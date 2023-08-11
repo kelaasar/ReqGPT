@@ -43,6 +43,7 @@ class JsonToCsvForm(FlaskForm):
     submit_json_to_csv = SubmitField('Convert JSON to CSV')
 
 
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
@@ -133,7 +134,6 @@ def upload():
     
 @app.route('/append_to_table', methods=['POST'])
 def append_to_table():
-    
     output_file_path = os.path.join('static', 'output', 'output.csv')
     with open(output_file_path, 'r', newline='') as file:
         csv_reader = csv.reader(file)
@@ -145,7 +145,7 @@ def append_to_table():
         if len(row) >= 2:
             reqid = row[0]
             rationale = row[1]
-            content = f"{reqid}, {rationale}"
+            content = f"{reqid}, {rationale}"  # Combine reqid and rationale
             new_task = Todo(content=content)
 
             try:
@@ -157,6 +157,7 @@ def append_to_table():
             return 'Invalid data in CSV file'
 
     return redirect('/')
+
 
 @app.route('/clear_table', methods=['POST'])
 def clear_table():
@@ -179,7 +180,7 @@ def export_table():
     # Add each task to the CSV data
     for task in tasks:
         task_id, task_requirement = task.content.split(',', 1)  # Split only once to get ID and Requirement
-        csv_data.append([task_id, task_requirement, task.date_created.date()])
+        csv_data.append([task_id, task_requirement, task.date_created.date()])  # Use strip() to remove extra spaces
 
     # Save the CSV data to a file on the server
     csv_file_path = os.path.join('static', 'export', 'table_data.csv')
@@ -210,6 +211,7 @@ def json_to_csv_route():
     else:
         flash('You must upload a JSON file.', 'error')
         return redirect('/')
+
 
 @app.route('/download_csv')
 def download_csv():

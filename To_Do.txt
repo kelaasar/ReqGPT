@@ -1,2 +1,0 @@
-- make conversion from json to csv separate feature
-- you can directly upload csv file to database-  
