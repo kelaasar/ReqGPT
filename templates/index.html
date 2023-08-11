@@ -78,6 +78,24 @@
             }
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const uploadForm = document.querySelector('#file');
+            
+            uploadForm.addEventListener('change', function () {
+                const allowedExtensions = ['.csv'];
+                const fileName = this.value.toLowerCase();
+                const isValidExtension = allowedExtensions.some(ext => fileName.endsWith(ext));
+        
+                if (!isValidExtension) {
+                    alert('File must be in CSV format.');
+                    this.value = ''; // Clear the file input
+                }
+            });
+        });
+    </script>
+
     {% endif %}
 
     <div class="form">
@@ -96,11 +114,15 @@
     </div>
     <br>
     <br>
+    
     <div class="form">
         <form action="/upload" method="POST" enctype="multipart/form-data" style="display: inline-block;">
             {{ form.csrf_token }}
-            {{ form.file.label }} {{ form.file() }}
-            {{ form.submit() }}
+            <label for="file">Upload File:</label>
+            <input type="file" name="file" id="file" accept=".csv" required>
+            <br>
+            <br>
+            <input type="submit" value="Upload">
         </form>
         <form action="/append_to_table" method="POST" style="display: inline-block;">
             {{ form.csrf_token }}
@@ -119,6 +141,22 @@
     <form action="/export_table" method="POST">
         {{ form.csrf_token }}
         <input type="submit" value="Export Table to CSV">
+    </form>
+</div>
+<br>
+<br>
+<div class="form">
+    <form action="/json_to_csv" method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <label for="json_file">Convert JSON to CSV:</label>
+        <input type="file" name="json_file" id="json_file" accept=".json" required>
+        <input type="submit" name="submit_json_to_csv" value="Convert JSON to CSV">
+    </form>
+</div>
+
+<div class="form">
+    <form action="/download_csv" method="GET">
+        <input type="submit" value="Download CSV">
     </form>
 </div>
 </div>
