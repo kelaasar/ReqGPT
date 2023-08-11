@@ -19,10 +19,10 @@ $ .\venv\Scripts\activate
 
 4. Then install the dependencies:
 ```
-$ (venv) pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 5. Finally start the web server:
 ```
-$ (venv) python app.py
+$ python app.py
 ```
