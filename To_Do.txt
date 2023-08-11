@@ -1,6 +1,1 @@
-- improved css
-- create columns: ID    Requirement    Date     
-- create filter to select Project
-- allow to manually enter project, reqid, Requirement
-- make conversion from json to csv separate feature
-- you can directly upload csv file to database
+- integrate gpt with app
