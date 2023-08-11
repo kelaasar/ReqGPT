@@ -1,10 +1,10 @@
-from flask import Flask, render_template, url_for, request, redirect, send_from_directory, flash
+from flask import Flask, render_template, request, redirect, send_from_directory, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
-from wtforms import FileField, SubmitField
+from wtforms import FileField, SubmitField, StringField, TextAreaField
 from wtforms.validators import InputRequired, ValidationError
 import subprocess
 import csv
@@ -34,6 +34,16 @@ class FileUploadForm(FlaskForm):
     file = FileField('Upload File', validators=[InputRequired()])
     submit = SubmitField('Upload')
 
+class TaskUpdateForm(FlaskForm):
+    task_id = StringField('ID', validators=[InputRequired()])
+    task_requirement = TextAreaField('Requirement', validators=[InputRequired()])
+    submit = SubmitField('Update')
+
+class TaskManualForm(FlaskForm):
+    task_id = StringField('ID', validators=[InputRequired()])
+    task_requirement = TextAreaField('Requirement', validators=[InputRequired()])
+    submit = SubmitField('Add Task')
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
@@ -58,6 +68,25 @@ def index():
         form = FileUploadForm()
         return render_template('index.html', tasks=tasks, form=form, project_keys=project_keys)
 
+@app.route('/add_task_manual', methods=['POST'])
+def add_task_manual():
+    form = TaskManualForm()
+    if form.validate_on_submit():
+        task_id = form.task_id.data
+        task_requirement = form.task_requirement.data
+        content = f"{task_id}, {task_requirement}"
+        new_task = Todo(content=content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+    else:
+        flash('ID and Requirement are required fields.', 'error')
+        return redirect('/')
+
 @app.route('/delete/<int:id>')
 def delete(id):
     task_to_delete = Todo.query.get_or_404(id)
@@ -72,9 +101,13 @@ def delete(id):
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     task = Todo.query.get_or_404(id)
+    form = TaskUpdateForm(obj=task)
 
-    if request.method == 'POST':
-        task.content = request.form['content']
+    if request.method == 'POST' and form.validate_on_submit():
+        task_id = form.task_id.data
+        task_requirement = form.task_requirement.data
+        content = f"{task_id}, {task_requirement}"
+        task.content = content
 
         try:
             db.session.commit()
@@ -82,7 +115,7 @@ def update(id):
         except:
             return 'There was an issue updating your task'
     else:
-        return render_template('update.html', task=task)
+        return render_template('update.html', task=task, form=form)
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -141,11 +174,12 @@ def export_table():
     tasks = Todo.query.all()
 
     # Create a list to store the CSV data
-    csv_data = [['Requirement', 'Date']]
+    csv_data = [['ID', 'Requirement', 'Date']]
 
     # Add each task to the CSV data
     for task in tasks:
-        csv_data.append([task.content, task.date_created.date()])
+        task_id, task_requirement = task.content.split(',', 1)  # Split only once to get ID and Requirement
+        csv_data.append([task_id, task_requirement, task.date_created.date()])
 
     # Save the CSV data to a file on the server
     csv_file_path = os.path.join('static', 'export', 'table_data.csv')

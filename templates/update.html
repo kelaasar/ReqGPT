@@ -10,7 +10,15 @@
 
     <div class="form">
         <form action="/update/{{task.id}}" method="POST">
-            <input type="text" name="content" id="content" value="{{task.content}}">
+            {{ form.csrf_token }}
+            <label for="task_id">ID:</label>
+            <input type="text" name="task_id" id="task_id" value="{{ task.content.split(',')[0] }}">
+            <br>
+            <br>
+            <label for="task_requirement">Requirement:</label>
+            <br>
+            <textarea name="task_requirement" id="task_requirement" rows="6">{{ task.content.split(',')[1] }}</textarea>
+            <br>
             <input type="submit" value="Update">
         </form>
     </div>
