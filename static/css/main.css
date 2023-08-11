@@ -1,36 +1,82 @@
-:last-child, html {
+/* Reset default margin and padding */
+html, body {
     margin: 0;
-    font-family: sans-serif;
-    background-color: lightblue;
+    padding: 0;
 }
 
+/* Apply a background color to the whole page */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* Center the content on the page */
 .content {
     margin: 0 auto;
-    width: 400px;
+    width: 80%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-table, td, th {
-    border: 1px solid #aaa;
-}
-
+/* Style the table */
 table {
     border-collapse: collapse;
     width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
 }
 
 th {
-    height: 30px;
+    background-color: #f2f2f2;
 }
 
-td {
-    text-align: center;
-    padding: 5px;
-}
-
+/* Style the form inputs and buttons */
 .form {
     margin-top: 20px;
 }
 
-#content {
-    width: 70%;
+.form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form input[type="text"],
+.form textarea,
+.form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style the flash messages */
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #d9534f;
+}
+
+/* Add some spacing between elements */
+.content > * {
+    margin-bottom: 10px;
 }
