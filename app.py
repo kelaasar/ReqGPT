@@ -8,6 +8,7 @@ from wtforms import FileField, SubmitField, StringField, TextAreaField
 from wtforms.validators import InputRequired
 import csv
 from json_to_csv import json_to_csv
+from gpt import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -218,6 +219,19 @@ def download_csv():
     csv_path = os.path.join('static', 'output', csv_filename)
     return send_file(csv_path, as_attachment=True)
 
+#endpoint to get a requirement and call fretish_convert and return the output
+@app.route('/fretish_convert', methods=['POST'])
+def fretish_convert():
+    requirement = request.form['requirement']
+    output = fretish_convert(requirement)
+    return output
+
+#endpoint to get a list of requirements and call inconsistency_check and return the output
+@app.route('/inconsistency_check', methods=['POST'])
+def inconsistency_check():
+    requirements = request.form['requirements']
+    output = inconsistency_check(requirements)
+    return output
     
 if __name__ == "__main__":
     app.run(debug=True)
